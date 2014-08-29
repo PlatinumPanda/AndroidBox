@@ -6,17 +6,14 @@ import com.andtinder.model.CardModel;
  * Created by sihrc on 8/28/14.
  */
 public class Card extends CardModel {
-	public Card(String title, String description, String imageUrl) {
-		super();
-		setTitle(title);
-		setDescription(description);
+	public String id, title, description, price, condition, imageUrl;
 
+	public Card(){}
 		//setOnClickListener(getCardOnClickListener());
 		//setCardImageDrawable();
 		//setCardDislikeImageDrawable();
 		//setCardLikeImageDrawable();
 		//setOnCardDimissedListener();
-	}
 
 	private OnClickListener getCardOnClickListener() {
 		return new OnClickListener() {

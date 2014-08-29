@@ -2,4 +2,11 @@
 <resources>
     <!-- General App Theme Colors -->
     <color name="navigation_drawer_bg">#cccc</color>
+
+    <!-- Text Colors -->
+    <color name="default_text">#000</color>
+
+    <!-- Backgrounds -->
+    <color name="transparent_button">#99ffffff</color>
+
 </resources>

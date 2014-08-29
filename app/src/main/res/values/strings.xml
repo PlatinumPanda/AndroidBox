@@ -3,6 +3,9 @@
     <!-- General App Strings -->
     <string name="app_name">AndroidBox</string>
 
+    <!-- Feed Action Bar -->
+    <string name="search_title">Search</string>
+
     <!-- Navigation Drawer -->
     <string name="menu_title_section_browse">Browse</string>
     <string name="menu_title_section_box">Box</string>
@@ -12,4 +15,13 @@
     <string name="action_refresh">Refresh</string>
     <string name="action_settings">Settings</string>
 
+    <!-- Error messages -->
+    <string name="query_error">Sorry, we failed to get search results</string>
+
+    <!-- Image Content Descriptions -->
+    <string name="source_logo">Source Logo</string>
+
+    <!-- Card -->
+    <string name="card_price_condition">%1$s | %2$s</string>
+    <string name="no_description">No description available…</string>
 </resources>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/card_title"
+        style="@style/default_title"/>
+
+    <com.android.volley.toolbox.NetworkImageView
+        android:id="@+id/card_image"
+        style="@style/default_image"
+        android:layout_below="@id/card_title"/>
+
+    <TextView
+        style="@style/default_text_button"
+        android:id="@+id/card_price_condition"
+        android:background="@drawable/rounded_transparent_button"
+        android:layout_alignBottom="@id/card_image"
+        android:layout_alignRight="@id/card_image"
+        android:layout_alignEnd="@id/card_image"
+        android:layout_margin="@dimen/default_margin"/>
+
+    <TextView
+        style="@style/default_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/card_description"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:layout_below="@id/card_image"/>
+
+    <ImageView
+        style="@style/default_logo"
+        android:id="@+id/card_logo"
+        android:layout_width="@dimen/default_logo_width"
+        android:layout_height="@dimen/default_logo_height"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:contentDescription="@string/source_logo"/>
+</RelativeLayout>
