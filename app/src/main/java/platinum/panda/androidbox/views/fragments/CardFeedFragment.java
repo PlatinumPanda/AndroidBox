@@ -20,6 +20,7 @@ import org.json.JSONObject;
 import platinum.panda.androidbox.R;
 import platinum.panda.androidbox.adapter.BoxCardAdapter;
 import platinum.panda.androidbox.callback.JSONCallback;
+import platinum.panda.androidbox.models.Card;
 import platinum.panda.androidbox.models.enums.Tag;
 import platinum.panda.androidbox.network.API;
 import platinum.panda.androidbox.utils.BoxToast;
@@ -37,6 +38,7 @@ public class CardFeedFragment extends Fragment {
 	public static final String TAG = CardFeedFragment.class.getSimpleName();
 	private MainActivity activity;
 	private BoxCardAdapter cardAdapter;
+	private CardContainer cardContainer;
 
 	//Empty Public Constructor
 	public CardFeedFragment() {
@@ -73,7 +75,15 @@ public class CardFeedFragment extends Fragment {
 
 		cardAdapter = new BoxCardAdapter(activity);
 
-		CardContainer cardContainer = (CardContainer) view.findViewById(R.id.main_card_feed);
+		Card test = new Card();
+		test.description = "Description";
+		test.title = "Title";
+		test.price = "4.99";
+		test.condition = "shit";
+		test.setCardImageDrawable(getResources().getDrawable(R.drawable.panda));
+		cardAdapter.add(test);
+
+		cardContainer = (CardContainer) view.findViewById(R.id.main_card_feed);
 		cardContainer.setOrientation(Orientations.Orientation.Ordered);
 		cardContainer.setAdapter(cardAdapter);
 
@@ -96,6 +106,7 @@ public class CardFeedFragment extends Fragment {
 					@Override
 					public void done(JSONObject response) throws JSONException {
 						cardAdapter.addCards(CardsParser.parse(response));
+						cardContainer.setAdapter(cardAdapter);
 					}
 
 					@Override
