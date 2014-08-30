@@ -22,6 +22,6 @@
     <string name="source_logo">Source Logo</string>
 
     <!-- Card -->
-    <string name="card_price_condition">%1$s | %2$s</string>
+    <string name="card_price_condition">$%1$s | %2$s</string>
     <string name="no_description">No description available…</string>
 </resources>
