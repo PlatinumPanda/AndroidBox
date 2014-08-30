@@ -45,8 +45,7 @@ public class CardFeedFragment extends Fragment {
 	}
 
 	/**
-	 * Returns a new instance of this fragment for the given section
-	 * number.
+	 * Returns a new instance of this fragment
 	 */
 	public static CardFeedFragment newInstance() {
 		CardFeedFragment fragment = new CardFeedFragment();
@@ -74,6 +73,7 @@ public class CardFeedFragment extends Fragment {
 		View view = inflater.inflate(R.layout.card_feed_fragment, container, false);
 
 		cardAdapter = new BoxCardAdapter(activity);
+
 		cardContainer = (CardContainer) view.findViewById(R.id.main_card_feed);
 		cardContainer.setOrientation(Orientations.Orientation.Ordered);
 		cardContainer.setAdapter(cardAdapter);
