@@ -74,18 +74,13 @@ public class CardFeedFragment extends Fragment {
 		View view = inflater.inflate(R.layout.card_feed_fragment, container, false);
 
 		cardAdapter = new BoxCardAdapter(activity);
-
-		Card test = new Card();
-		test.description = "Description";
-		test.title = "Title";
-		test.price = "4.99";
-		test.condition = "shit";
-		test.setCardImageDrawable(getResources().getDrawable(R.drawable.panda));
-		cardAdapter.add(test);
-
 		cardContainer = (CardContainer) view.findViewById(R.id.main_card_feed);
 		cardContainer.setOrientation(Orientations.Orientation.Ordered);
 		cardContainer.setAdapter(cardAdapter);
+
+		cardTestingSetup(); //FIXME remove after testing
+
+		cardContainer.updateTopView();
 
 		return view;
 	}
@@ -106,7 +101,7 @@ public class CardFeedFragment extends Fragment {
 					@Override
 					public void done(JSONObject response) throws JSONException {
 						cardAdapter.addCards(CardsParser.parse(response));
-						cardContainer.setAdapter(cardAdapter);
+						cardContainer.updateTopView();
 					}
 
 					@Override
@@ -122,5 +117,34 @@ public class CardFeedFragment extends Fragment {
 				return false;
 			}
 		});
+	}
+
+	private void cardTestingSetup() {
+		/** TESTS FIXME REMOVE **/
+		Card test1 = new Card();
+		test1.description = "Description";
+		test1.title = "Title";
+		test1.price = "4.99";
+		test1.condition = "shit";
+
+		Card test2 = new Card();
+		test2.description = "Description";
+		test2.title = "Title";
+		test2.price = "5.99";
+		test2.condition = "shit";
+
+		Card test3 = new Card();
+		test3.description = "Description";
+		test3.title = "Title";
+		test3.price = "6.99";
+		test3.condition = "shit";
+
+		test1.setCardImageDrawable(getResources().getDrawable(R.drawable.panda));
+		test2.setCardImageDrawable(getResources().getDrawable(R.drawable.panda));
+		test3.setCardImageDrawable(getResources().getDrawable(R.drawable.panda));
+
+		cardAdapter.add(test1);
+		cardAdapter.add(test2);
+		cardAdapter.add(test3);
 	}
 }

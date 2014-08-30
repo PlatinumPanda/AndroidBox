@@ -66,7 +66,6 @@ public class BoxCardAdapter extends CardStackAdapter<Card> {
 		for (Card card : cards) {
 			add(card);
 		}
-		notifyDataSetChanged();
 	}
 
 	private static class ViewHolder {
