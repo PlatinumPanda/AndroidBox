@@ -2,12 +2,15 @@ package platinum.panda.androidbox.views.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.SearchView;
 
 import com.android.volley.VolleyError;
@@ -24,6 +27,7 @@ import platinum.panda.androidbox.models.Card;
 import platinum.panda.androidbox.models.enums.Tag;
 import platinum.panda.androidbox.network.API;
 import platinum.panda.androidbox.utils.BoxToast;
+import platinum.panda.androidbox.utils.BoxUtils;
 import platinum.panda.androidbox.utils.CardsParser;
 import platinum.panda.androidbox.views.activities.MainActivity;
 
@@ -88,15 +92,19 @@ public class CardFeedFragment extends Fragment {
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		inflater.inflate(R.menu.feed, menu);
-		SearchView view = (SearchView) menu.findItem(R.id.search).getActionView();
-		setupSearchView(view);
+		MenuItem searchItem = menu.findItem(R.id.search);
+		setupSearchView(searchItem);
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 
-	private void setupSearchView(SearchView view) {
+	private void setupSearchView(final MenuItem searchItem) {
+		final SearchView view = (SearchView) searchItem.getActionView();
 		view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 			@Override
 			public boolean onQueryTextSubmit(String s) {
+				searchItem.collapseActionView();
+				BoxUtils.hideKeyboard(activity, view);
+				activity.setActionBarTitle('\"' + s + '\"');
 				API.getQueryResults(s, new JSONCallback() {
 					@Override
 					public void done(JSONObject response) throws JSONException {
