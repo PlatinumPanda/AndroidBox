@@ -1,6 +1,7 @@
 package com.andtinder.view;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -83,7 +84,7 @@ public abstract class CardStackAdapter<T> extends BaseAdapter {
 	public T pop() {
 		T model;
 		synchronized (mLock) {
-			model = mData.remove(mData.size() - 1);
+			model = mData.remove(0);
 		}
 		notifyDataSetChanged();
 		return model;
@@ -96,7 +97,7 @@ public abstract class CardStackAdapter<T> extends BaseAdapter {
 
 	public T getCardModel(int position) {
 		synchronized (mLock) {
-			return mData.get(mData.size() - 1 - position);
+			return mData.get(position);
 		}
 	}
 
