@@ -23,11 +23,6 @@ public class MainActivity extends Activity
 		implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
 	/**
-	 * Network Handling
-	 */
-	public static ImageLoader imageLoader;
-	public static RequestQueue requestQueue;
-	/**
 	 * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
 	 */
 	private NavigationDrawerFragment mNavigationDrawerFragment;
@@ -49,8 +44,6 @@ public class MainActivity extends Activity
 		mNavigationDrawerFragment.setUp(
 				R.id.navigation_drawer,
 				(DrawerLayout) findViewById(R.id.drawer_layout));
-
-		setupNetwork();
 	}
 
 	@Override
@@ -86,11 +79,6 @@ public class MainActivity extends Activity
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		return super.onOptionsItemSelected(item);
-	}
-
-	private void setupNetwork() {
-		requestQueue = Volley.newRequestQueue(MainActivity.this);
-		imageLoader = new ImageLoader(requestQueue, new BitmapLRUCache(BitmapLRUCache.getScreenBasedCacheSize(MainActivity.this)));
 	}
 
 	@Override

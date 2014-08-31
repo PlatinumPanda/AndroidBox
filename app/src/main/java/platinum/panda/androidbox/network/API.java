@@ -12,6 +12,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import platinum.panda.androidbox.PandaBox;
 import platinum.panda.androidbox.callback.JSONCallback;
 import platinum.panda.androidbox.views.activities.MainActivity;
 
@@ -65,7 +66,7 @@ public class API {
 
 	protected static void execute(Request<?> request) {
 		setTimeout(request);
-		MainActivity.requestQueue.add(request);
+		PandaBox.app.getRequestQueue().add(request);
 	}
 
 	public static void setTimeout(Request req) {

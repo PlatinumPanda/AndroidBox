@@ -13,6 +13,7 @@ import com.andtinder.view.CardStackAdapter;
 
 import java.util.List;
 
+import platinum.panda.androidbox.PandaBox;
 import platinum.panda.androidbox.R;
 import platinum.panda.androidbox.models.Card;
 import platinum.panda.androidbox.utils.NullCheck;
@@ -51,7 +52,7 @@ public class BoxCardAdapter extends CardStackAdapter<Card> {
 		holder.title.setText(model.title);
 		holder.description.setText(NullCheck.stringChecker(model.description, context.getString(R.string.no_description)));
 		holder.logo.setImageDrawable(context.getResources().getDrawable(R.drawable.ebay_logo));
-		holder.imageView.setImageUrl(model.imageUrl, MainActivity.imageLoader);
+		holder.imageView.setImageUrl(model.imageUrl, PandaBox.app.getImageLoader());
 		holder.price.setText(String.format(context.getString(R.string.card_price_condition), model.price, model.condition));
 
 		return convertView;
