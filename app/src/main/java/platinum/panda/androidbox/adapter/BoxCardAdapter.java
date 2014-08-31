@@ -26,6 +26,7 @@ public class BoxCardAdapter extends CardStackAdapter<Card> {
 	// Context
 	Context context;
 
+	//Inherited Constructor
 	public BoxCardAdapter(Context context) {
 		super(context);
 		this.context = context;
@@ -33,10 +34,14 @@ public class BoxCardAdapter extends CardStackAdapter<Card> {
 
 	@Override
 	protected View getCardView(int position, Card model, View convertView, ViewGroup parent) {
+		/** Handle Recycled Views **/
 		ViewHolder holder;
+		//Check if convertView has been recycled
 		if (convertView == null) {
+			//If convertView has never been created - create from inflater
 			convertView = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.card, parent, false);
 
+			//Find Views from XML and populate ViewHolder
 			holder = new ViewHolder();
 			holder.title = (TextView) convertView.findViewById(R.id.card_title);
 			holder.description = (TextView) convertView.findViewById(R.id.card_description);
@@ -44,16 +49,24 @@ public class BoxCardAdapter extends CardStackAdapter<Card> {
 			holder.imageView = (NetworkImageView) convertView.findViewById(R.id.card_image);
 			holder.logo = (ImageView) convertView.findViewById(R.id.card_logo);
 
+			//Tag ViewHolder for future use in recycled convertView
 			convertView.setTag(holder);
 		} else {
+			//ConvertView is recycled. Retrieve the ViewHolder
 			holder = (ViewHolder) convertView.getTag();
 		}
 
+		/** Populate Views **/
+		//Title, Description, and Price
 		holder.title.setText(model.title);
 		holder.description.setText(NullCheck.stringChecker(model.description, context.getString(R.string.no_description)));
-		holder.logo.setImageDrawable(context.getResources().getDrawable(R.drawable.ebay_logo));
-		holder.imageView.setImageUrl(model.imageUrl, PandaBox.app.getImageLoader());
 		holder.price.setText(String.format(context.getString(R.string.card_price_condition), model.price, model.condition));
+
+		//Logo for source
+		holder.logo.setImageDrawable(context.getResources().getDrawable(R.drawable.ebay_logo));
+
+		//Card Product Image
+		holder.imageView.setImageUrl(model.imageUrl, PandaBox.app.getImageLoader());
 
 		return convertView;
 	}
@@ -69,6 +82,9 @@ public class BoxCardAdapter extends CardStackAdapter<Card> {
 		}
 	}
 
+	/**
+	 * Holder for child views for recycled convertViews
+	 */
 	private static class ViewHolder {
 		TextView title, description, price;
 		NetworkImageView imageView;
