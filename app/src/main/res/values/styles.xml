@@ -5,6 +5,8 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <!-- TEXT -->
+
     <style name="default_title" parent="@android:style/Widget.TextView">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -15,12 +17,15 @@
         <item name="android:singleLine">true</item>
     </style>
 
-    <style name="default_image">
+    <style name="default_text" parent="@android:style/Widget.TextView">
         <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">@dimen/default_image_height</item>
-        <item name="android:scaleType">centerCrop</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/default_margin</item>
+        <item name="android:textColor">@color/default_text</item>
+        <item name="android:textSize">@dimen/default_title</item>
     </style>
 
+    <!-- BUTTONS -->
     <style name="default_text_button" parent="@android:style/Widget.TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">@dimen/default_button_height</item>
@@ -32,12 +37,24 @@
         <item name="android:ellipsize">end</item>
     </style>
 
-    <style name="default_text" parent="@android:style/Widget.TextView">
-        <item name="android:layout_width">fill_parent</item>
+    <style name="default_login_button" parent="@android:style/Widget.TextView">
+        <item name="android:layout_width">120dp</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_margin">@dimen/default_margin</item>
-        <item name="android:textColor">@color/default_text</item>
-        <item name="android:textSize">@dimen/default_title</item>
+        <item name="android:padding">@dimen/default_margin</item>
+        <item name="android:textSize">@dimen/login_button_text_size</item>
+        <item name="android:background">@color/app_theme</item>
+        <item name="android:textColor">@color/white_text</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <!-- IMAGES -->
+    <style name="default_image">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">@dimen/default_image_height</item>
+        <item name="android:scaleType">centerCrop</item>
     </style>
 
     <style name="default_logo">

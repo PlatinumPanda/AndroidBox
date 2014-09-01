@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- General App Theme Colors -->
+    <color name="app_theme">#ffb81000</color>
     <color name="navigation_drawer_bg">#cccc</color>
 
     <!-- Text Colors -->
     <color name="default_text">#000</color>
+    <color name="white_text">#fff</color>
 
     <!-- Backgrounds -->
     <color name="transparent_button">#99ffffff</color>

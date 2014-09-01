@@ -7,6 +7,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
+import platinum.panda.androidbox.login.LoginManager;
 import platinum.panda.androidbox.network.BitmapLRUCache;
 
 /**
@@ -25,10 +26,16 @@ public class PandaBox extends Application {
 	public static PandaBox app;
 	private Context context;
 
+	/**
+	 * Authentication Management
+	 */
+	private LoginManager loginManager;
+
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
+
 		/** Application Context **/
 		app = this;
 		context = getApplicationContext();
@@ -36,7 +43,14 @@ public class PandaBox extends Application {
 		/** Network Requests Setup **/
 		requestQueue = Volley.newRequestQueue(this);
 		imageLoader = new ImageLoader(requestQueue, new BitmapLRUCache(BitmapLRUCache.getScreenBasedCacheSize(this)));
+
+		/** Authentication Management **/
+		loginManager = new LoginManager(this);
 	}
+
+	/**
+	 * Getters
+	 */
 
 	public Context getContext() {
 		return context;
@@ -50,4 +64,7 @@ public class PandaBox extends Application {
 		return requestQueue;
 	}
 
+	public LoginManager getLoginManager() {
+		return loginManager;
+	}
 }

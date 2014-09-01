@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:paddingTop="@dimen/login_top_margin"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <ImageView
+        android:background="@drawable/logo"
+        android:layout_width="fill_parent"
+        android:layout_height="300dp"/>
+
+    <TextView
+        style="@style/default_login_button"
+        android:layout_marginTop="20dp"
+        android:id="@+id/panda_login"
+        android:text="@string/menu_title_section_login"/>
+</LinearLayout>

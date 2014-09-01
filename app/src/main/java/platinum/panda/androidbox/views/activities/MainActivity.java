@@ -2,7 +2,9 @@ package platinum.panda.androidbox.views.activities;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
@@ -12,10 +14,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
+import platinum.panda.androidbox.PandaBox;
 import platinum.panda.androidbox.R;
 import platinum.panda.androidbox.models.enums.Tag;
 import platinum.panda.androidbox.network.BitmapLRUCache;
 import platinum.panda.androidbox.views.fragments.CardFeedFragment;
+import platinum.panda.androidbox.views.fragments.LoginFragment;
 import platinum.panda.androidbox.views.fragments.NavigationDrawerFragment;
 
 
@@ -35,6 +39,12 @@ public class MainActivity extends Activity
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		// Check if Logged In to show Login Fragment
+		if (!PandaBox.app.getLoginManager().isLoggedIn()) {
+			LoginFragment.newInstance(MainActivity.this).show(getFragmentManager(), "Login");
+		}
+
 		setContentView(R.layout.activity_main);
 
 		mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -85,12 +95,9 @@ public class MainActivity extends Activity
 	@Override
 	public void onNavigationDrawerItemSelected(int position) {
 		// update the main content by replacing fragments
-		FragmentManager fragmentManager = getFragmentManager();
 		switch (position) {
 			case 0:
-				fragmentManager.beginTransaction()
-						.replace(R.id.container, CardFeedFragment.newInstance())
-						.commit();
+				showFragment(CardFeedFragment.newInstance(), false);
 				return;
 			default:
 				return;
@@ -108,8 +115,24 @@ public class MainActivity extends Activity
 			case SettingsFragment:
 				mTitle = getString(R.string.menu_title_section_settings);
 				break;
+			case LoginFragment:
+				mTitle = getString(R.string.menu_title_section_login);
 		}
 	}
 
+	/**
+	 * Show Fragment
+	 * @param fragment - fragment to show
+	 * @param backStack - whether can use back button to get back to fragment
+	 */
+	public void showFragment(Fragment fragment, boolean backStack) {
+		FragmentTransaction transaction = getFragmentManager().beginTransaction()
+				.replace(R.id.container, fragment);
 
+		if (backStack) {
+			transaction.addToBackStack(fragment.getTag());
+		}
+
+		transaction.commit();
+	}
 }
