@@ -2,7 +2,9 @@ package platinum.panda.androidbox.views.activities;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
@@ -12,10 +14,13 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
+import lombok.core.Main;
+import platinum.panda.androidbox.PandaBox;
 import platinum.panda.androidbox.R;
 import platinum.panda.androidbox.models.enums.Tag;
 import platinum.panda.androidbox.network.BitmapLRUCache;
 import platinum.panda.androidbox.views.fragments.CardFeedFragment;
+import platinum.panda.androidbox.views.fragments.LoginFragment;
 import platinum.panda.androidbox.views.fragments.NavigationDrawerFragment;
 
 
@@ -23,14 +28,10 @@ public class MainActivity extends Activity
 		implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
 	/**
-	 * Network Handling
-	 */
-	public static ImageLoader imageLoader;
-	public static RequestQueue requestQueue;
-	/**
 	 * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
 	 */
 	private NavigationDrawerFragment mNavigationDrawerFragment;
+
 	/**
 	 * Used to store the last screen title. For use in {@link #restoreActionBar()}.
 	 */
@@ -39,6 +40,12 @@ public class MainActivity extends Activity
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		// Check if Logged In to show Login Fragment
+		if (!PandaBox.app.getLoginManager().isLoggedIn()) {
+			LoginFragment.display(MainActivity.this);
+		}
+
 		setContentView(R.layout.activity_main);
 
 		mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -49,8 +56,6 @@ public class MainActivity extends Activity
 		mNavigationDrawerFragment.setUp(
 				R.id.navigation_drawer,
 				(DrawerLayout) findViewById(R.id.drawer_layout));
-
-		setupNetwork();
 	}
 
 	@Override
@@ -88,20 +93,19 @@ public class MainActivity extends Activity
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void setupNetwork() {
-		requestQueue = Volley.newRequestQueue(MainActivity.this);
-		imageLoader = new ImageLoader(requestQueue, new BitmapLRUCache(BitmapLRUCache.getScreenBasedCacheSize(MainActivity.this)));
-	}
-
 	@Override
 	public void onNavigationDrawerItemSelected(int position) {
 		// update the main content by replacing fragments
-		FragmentManager fragmentManager = getFragmentManager();
 		switch (position) {
 			case 0:
-				fragmentManager.beginTransaction()
-						.replace(R.id.container, CardFeedFragment.newInstance())
-						.commit();
+				showFragment(CardFeedFragment.newInstance(), false);
+				return;
+
+			case 3:
+				if (PandaBox.app.getLoginManager().isLoggedIn()) {
+					PandaBox.app.getLoginManager().logout();
+					LoginFragment.display(MainActivity.this);
+				}
 				return;
 			default:
 				return;
@@ -119,8 +123,28 @@ public class MainActivity extends Activity
 			case SettingsFragment:
 				mTitle = getString(R.string.menu_title_section_settings);
 				break;
+			case LoginFragment:
+				mTitle = getString(R.string.menu_title_section_login);
 		}
 	}
 
+	/**
+	 * Show Fragment
+	 * @param fragment - fragment to show
+	 * @param backStack - whether can use back button to get back to fragment
+	 */
+	public void showFragment(Fragment fragment, boolean backStack) {
+		FragmentTransaction transaction = getFragmentManager().beginTransaction()
+				.replace(R.id.container, fragment);
 
+		if (backStack) {
+			transaction.addToBackStack(fragment.getTag());
+		}
+
+		transaction.commit();
+	}
+
+	public NavigationDrawerFragment getmNavigationDrawerFragment() {
+		return mNavigationDrawerFragment;
+	}
 }

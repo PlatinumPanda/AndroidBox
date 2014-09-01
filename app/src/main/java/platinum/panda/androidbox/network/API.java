@@ -12,6 +12,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import platinum.panda.androidbox.PandaBox;
 import platinum.panda.androidbox.callback.JSONCallback;
 import platinum.panda.androidbox.views.activities.MainActivity;
 
@@ -19,12 +20,7 @@ import platinum.panda.androidbox.views.activities.MainActivity;
  * Created by sihrc on 8/28/14.
  */
 public class API {
-	/**
-	 * Helper Methods *
-	 */
-
-	public API() {
-	}
+	//** Server Calls **//
 
 	/**
 	 * Gets query results from server
@@ -36,6 +32,11 @@ public class API {
 		Log.i("API", "getQueryResults");
 		JSONRequest(Request.Method.GET, BoxURL.getQueryURL(query), null, "SearchQuery", callback);
 	}
+
+
+	/**
+	 * Helper Methods for Sending Server Calls
+	 */
 
 	private static void JSONRequest(int method, String url, JSONObject json, final String tag, final JSONCallback callback) {
 		execute(new JsonObjectRequest(method, url, json, new Response.Listener<JSONObject>() {
@@ -64,12 +65,11 @@ public class API {
 	}
 
 	protected static void execute(Request<?> request) {
-		setTimeout(request);
-		MainActivity.requestQueue.add(request);
-	}
+		//Set Timeout
+		RetryPolicy policy = request.getRetryPolicy();
+		request.setRetryPolicy(new DefaultRetryPolicy(policy.getCurrentTimeout() * 4, policy.getCurrentRetryCount(), DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-	public static void setTimeout(Request req) {
-		RetryPolicy policy = req.getRetryPolicy();
-		req.setRetryPolicy(new DefaultRetryPolicy(policy.getCurrentTimeout() * 4, policy.getCurrentRetryCount(), DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+		//Add Request
+		PandaBox.app.getRequestQueue().add(request);
 	}
 }
