@@ -19,16 +19,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.android.volley.VolleyError;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import platinum.panda.androidbox.PandaBox;
 import platinum.panda.androidbox.R;
-import platinum.panda.androidbox.callback.JSONCallback;
-import platinum.panda.androidbox.network.API;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -59,12 +54,20 @@ public class NavigationDrawerFragment extends Fragment {
 	private ActionBarDrawerToggle mDrawerToggle;
 
 	private DrawerLayout mDrawerLayout;
+	private ArrayAdapter<String> mDrawerAdapter;
 	private ListView mDrawerListView;
 	private View mFragmentContainerView;
 
 	private int mCurrentSelectedPosition = 0;
 	private boolean mFromSavedInstanceState;
 	private boolean mUserLearnedDrawer;
+
+	final int [] drawerItems = new int[] {
+			R.string.menu_title_section_browse,
+			R.string.menu_title_section_box,
+			R.string.menu_title_section_settings,
+			R.string.menu_title_section_login
+	};
 
 	public NavigationDrawerFragment() {
 	}
@@ -98,7 +101,9 @@ public class NavigationDrawerFragment extends Fragment {
 		) {
 			@Override
 			public void onDrawerOpened(View drawerView) {
+				mDrawerAdapter.notifyDataSetChanged();
 				super.onDrawerOpened(drawerView);
+
 				if (!isAdded()) {
 					return;
 				}
@@ -174,6 +179,31 @@ public class NavigationDrawerFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
+
+		/** Set up Drawer Adapter for Choices **/
+		mDrawerAdapter = new ArrayAdapter<String>(
+				getActionBar().getThemedContext(),
+				android.R.layout.simple_list_item_activated_1,
+				android.R.id.text1) {
+			@Override
+			public String getItem(int position) {
+				switch (position) {
+					case 3:
+						return (PandaBox.app.getLoginManager().isLoggedIn() ?
+								getString(R.string.menu_title_section_logout) :
+								getString(R.string.menu_title_section_login));
+
+					default:
+						return getString(drawerItems[position]);
+				}
+			}
+
+			@Override
+			public int getCount() {
+				return drawerItems.length;
+			}
+		};
+
 		mDrawerListView = (ListView) inflater.inflate(
 				R.layout.fragment_navigation_drawer, container, false);
 		mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -182,16 +212,8 @@ public class NavigationDrawerFragment extends Fragment {
 				selectItem(position);
 			}
 		});
-		mDrawerListView.setAdapter(new ArrayAdapter<String>(
-				getActionBar().getThemedContext(),
-				android.R.layout.simple_list_item_activated_1,
-				android.R.id.text1,
-				new String[]{
-						getString(R.string.menu_title_section_browse),
-						getString(R.string.menu_title_section_box),
-						getString(R.string.menu_title_section_settings),
-						getString(R.string.menu_title_section_login)
-				}));
+		mDrawerListView.setAdapter(mDrawerAdapter);
+
 		mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
 		return mDrawerListView;
 	}
@@ -271,6 +293,12 @@ public class NavigationDrawerFragment extends Fragment {
 		}
 		if (mCallbacks != null) {
 			mCallbacks.onNavigationDrawerItemSelected(position);
+		}
+	}
+
+	public void update() {
+		if (mDrawerAdapter != null) {
+			mDrawerAdapter.notifyDataSetChanged();
 		}
 	}
 

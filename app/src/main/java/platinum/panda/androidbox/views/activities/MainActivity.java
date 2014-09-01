@@ -14,6 +14,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
+import lombok.core.Main;
 import platinum.panda.androidbox.PandaBox;
 import platinum.panda.androidbox.R;
 import platinum.panda.androidbox.models.enums.Tag;
@@ -42,7 +43,7 @@ public class MainActivity extends Activity
 
 		// Check if Logged In to show Login Fragment
 		if (!PandaBox.app.getLoginManager().isLoggedIn()) {
-			LoginFragment.newInstance(MainActivity.this).show(getFragmentManager(), "Login");
+			LoginFragment.display(MainActivity.this);
 		}
 
 		setContentView(R.layout.activity_main);
@@ -99,6 +100,13 @@ public class MainActivity extends Activity
 			case 0:
 				showFragment(CardFeedFragment.newInstance(), false);
 				return;
+
+			case 3:
+				if (PandaBox.app.getLoginManager().isLoggedIn()) {
+					PandaBox.app.getLoginManager().logout();
+					LoginFragment.display(MainActivity.this);
+				}
+				return;
 			default:
 				return;
 		}
@@ -134,5 +142,9 @@ public class MainActivity extends Activity
 		}
 
 		transaction.commit();
+	}
+
+	public NavigationDrawerFragment getmNavigationDrawerFragment() {
+		return mNavigationDrawerFragment;
 	}
 }

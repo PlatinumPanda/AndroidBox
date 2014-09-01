@@ -25,10 +25,10 @@ public class LoginFragment extends DialogFragment {
 	MainActivity activity;
 
 	public LoginFragment() {}
-	public static LoginFragment newInstance(MainActivity activity) {
+	public static void display(MainActivity activity) {
 		LoginFragment loginFragment = new LoginFragment();
 		loginFragment.activity = activity;
-		return loginFragment;
+		loginFragment.show(activity.getFragmentManager(), LoginFragment.class.getSimpleName());
 	}
 
 	@Override
@@ -59,6 +59,7 @@ public class LoginFragment extends DialogFragment {
 				PandaBox.app.getLoginManager().login(new JSONCallback() {
 					@Override
 					public void done(JSONObject response) throws JSONException {
+						activity.getmNavigationDrawerFragment().update();
 						activity.showFragment(CardFeedFragment.newInstance(), true);
 						dismiss();
 					}
